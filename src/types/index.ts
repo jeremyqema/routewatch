@@ -1,30 +1,30 @@
 export interface RouteWatchOptions {
-  /**
-   * Duration in milliseconds above which a route is considered slow.
-   * Defaults to 1000ms.
-   */
-  slowThresholdMs?: number;
-
-  /**
-   * Callback invoked when a route exceeds the slow threshold.
-   */
-  onSlowRoute?: (metric: RouteMetrics) => void;
-
-  /**
-   * Enable or disable the middleware entirely.
-   * Defaults to true.
-   */
-  enabled?: boolean;
+  threshold?: number;
+  onAlert?: (message: string, metric: RouteMetric) => void;
+  skip?: (req: import('express').Request) => boolean;
 }
 
-export interface RouteMetrics {
+export interface RouteMetric {
   route: string;
   method: string;
   statusCode: number;
-  durationMs: number;
-  timestamp: Date;
+  duration: number;
+  timestamp: string;
 }
 
-export interface MetricsStore {
-  [routeKey: string]: RouteMetrics[];
+export interface RouteSummary {
+  route: string;
+  count: number;
+  avgDuration: number;
+  minDuration: number;
+  maxDuration: number;
+  p95Duration: number;
+}
+
+export interface SummaryReport {
+  generatedAt: string;
+  totalRequests: number;
+  totalRoutes: number;
+  slowestRoute: RouteSummary | null;
+  routes: RouteSummary[];
 }
