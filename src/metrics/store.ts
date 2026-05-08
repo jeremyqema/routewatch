@@ -34,3 +34,27 @@ export function clearMetrics(): void {
 export function getRouteKeys(): string[] {
   return Object.keys(store);
 }
+
+/**
+ * Returns summary statistics for a specific route, or all routes if no
+ * method/route is provided.
+ */
+export function getMetricsSummary(
+  method?: string,
+  route?: string
+): { count: number; avgDuration: number; errorRate: number } {
+  const metrics = getMetrics(method, route);
+
+  if (metrics.length === 0) {
+    return { count: 0, avgDuration: 0, errorRate: 0 };
+  }
+
+  const totalDuration = metrics.reduce((sum, m) => sum + m.duration, 0);
+  const errorCount = metrics.filter((m) => m.statusCode >= 500).length;
+
+  return {
+    count: metrics.length,
+    avgDuration: totalDuration / metrics.length,
+    errorRate: errorCount / metrics.length,
+  };
+}
