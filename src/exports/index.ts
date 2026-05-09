@@ -1,21 +1,18 @@
-/**
- * routewatch public API
- * Central export point for all public-facing modules.
- */
-
 export { routewatch } from '../middleware/routewatch';
-export { recordMetric, getMetrics, clearMetrics, getRouteKeys } from '../metrics/store';
+export { getMetrics, clearMetrics, recordMetric, getMetricsSummary } from '../metrics/store';
+export { computeRouteSummary, generateSummaryReport, formatSummaryReport } from '../reports/summary';
+export { exportMetrics, toCSV } from '../reports/export';
+export { computeTrendForRoute, computeTrendReport, percentile } from '../reports/trend';
+export { computeBaseline, compareToBaseline } from '../reports/baseline';
+export type { BaselineEntry, BaselineReport } from '../reports/baseline';
+export { recordAlert, getAlertHistory, clearAlertHistory, getAlertCount, getRecentAlerts } from '../alerts/alertHistory';
+export { addAlertRule, removeAlertRule, getAlertRules, clearAlertRules, evaluateRules } from '../alerts/alertRules';
 export { checkThreshold, formatAlertMessage } from '../alerts/threshold';
-export {
-  computeRouteSummary,
-  generateSummaryReport,
-  formatSummaryReport,
-} from '../reports/summary';
-export { summaryRoute } from '../reports/summaryRoute';
 export type {
-  RouteWatchOptions,
   RouteMetric,
-  AlertHandler,
-  RouteSummary,
-  SummaryReport,
-} from '../types/index';
+  RouteWatchOptions,
+  AlertRule,
+  AlertEvent,
+  TrendPoint,
+  RouteTrend,
+} from '../types';
